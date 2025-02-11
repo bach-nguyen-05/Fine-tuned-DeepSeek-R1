@@ -15,7 +15,8 @@ import wandb
 # Customize your own token
 hugging_face_token = os.environ.get("CUSTOMIZE")
 login(hugging_face_token)
-wandb.login(key="CUSTOMIZE")
+wnb_token = os.environ.get("CUSTOMIZE")
+wandb.login(key=wnb_token)
 
 run = wandb.init(
     project = 'DeepSeek-R1 Fine-tune',
@@ -72,22 +73,21 @@ inputs = tokenizer([prompt_style.format(question, "")], return_tensors="pt").to(
 
 # CREATE THE ANSWER
 
-# outputs = model.generate(
-#     input_ids = inputs.input_ids, # tokenized input question
-#     max_new_tokens = 1000,  # limit the output to 1000 tokens max
-#     attention_mask = inputs.attention_mask ,
-#     use_cache = True # if we use the question again, it's gonna give the answer quickly
-# )
+outputs = model.generate(
+    input_ids = inputs.input_ids, # tokenized input question
+    max_new_tokens = 1000,  # limit the output to 1000 tokens max
+    attention_mask = inputs.attention_mask ,
+    use_cache = True # if we use the question again, it's gonna give the answer quickly
+)
 
 
 # *** Need to learn more about this: Decode the output into human-read
-# response = tokenizer.batch_decode(outputs)
+response = tokenizer.batch_decode(outputs)
 
 # Extract and only print the relevant
 # Test response:
-
-# print(response)
-# print("------------------------------------------------------")
+print(response)
+print("------------------------------------------------------")
 
 
 
@@ -124,7 +124,7 @@ EOS_TOKEN
 
 # Define the formatting function
 def formatting_prompts_funct(examples):
-    inputs = examples["Question"]
+    inputs = examples["Question"]       # These customizations are based on the dataset where it's split into Question/Complex_CoT/Response
     cots = examples["Complex_CoT"]
     outputs = examples["Response"]
 
