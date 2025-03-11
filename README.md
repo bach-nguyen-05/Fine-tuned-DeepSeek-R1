@@ -9,7 +9,7 @@ The model has been fine-tuned using Low Rank Adaptation (LoRA), the code has bee
 + 16 adapters are applied to 7 layers mentioned in the code 
 
 Requirements for fine-tuning:
-+ Unsloth (Optional) for fast loading model (AutoTokenizer and AutoCasualLm can be used instead).
++ Unsloth (Optional) for fast loading model (AutoTokenizer and AutoModelForCasualLm can be used instead).
 + datasets, PyTorch, and trl for training operations
 
 ## Benchmark Methods
