@@ -20,6 +20,8 @@ Requirements for fine-tuning:
 ## Result
 The fine-tuned model yields more succinct chains of thoughts before giving more accurate answers. <br>
 Because of limited testing resources, the 2 models are benchmarked on 2500 rows and 5000 rows (the training time for 5000 was long and might lead to some errors). <br>
-![Diagram](![image](https://github.com/user-attachments/assets/c81c5998-c18b-4a35-a560-59adebec0e32))
+<br>
+<br>
+![Image](benchmark_result.jpeg "Benchmark Result")
 
 
