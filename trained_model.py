@@ -5,7 +5,7 @@ from transformers import TextStreamer
 
 # Model Configuration
 loaded_model, loaded_tokenizer = FastLanguageModel.from_pretrained(
-    model_name = "trained_model",
+    model_name = "finetuned_model",
     device_map = "auto",
     max_seq_length = 2048,
     load_in_4bit = True,
