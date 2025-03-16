@@ -115,8 +115,15 @@ Please answer the following medical question.
 
 
 # Download the dataset using Hugging Face - function imported using datasets import load_dataset
-dataset = load_dataset("FreedomIntelligence/medical-o1-reasoning-SFT", "en", split = "train[0:500]", trust_remote_code = True) # Specify the language to english and get the first 500 rows of the dataset
-dataset
+dataset = load_dataset("FreedomIntelligence/medical-o1-reasoning-SFT", "en", split="train", trust_remote_code = True) 
+# Specify the language to english and get the whole dataset
+
+# Split the dataset 80-20 for training and testing
+# seed = 42 to make sure we have the same split everytime we finetune
+split_dataset = dataset.train_test_split(test_size = 0.2, seed = 42)
+
+train_dataset = split_dataset["train"]
+test_dataset = split_dataset["test"]
 
 EOS_TOKEN = tokenizer.eos_token # End of sequence function
 EOS_TOKEN
@@ -141,7 +148,7 @@ def formatting_prompts_funct(examples):
 
 
 # Update dataset formatting
-dataset_finetune = dataset.map(formatting_prompts_funct, batched = True)
+dataset_finetune = train_dataset.map(formatting_prompts_funct, batched = True)
 dataset_finetune["text"][0]
 
 
@@ -184,8 +191,8 @@ trainer = SFTTrainer(
         per_device_train_batch_size = 2,
         gradient_accumulation_steps = 4,
         num_train_epochs = 1,
-        warmup_steps = 5,
-        max_steps = 6,
+        warmup_steps = 100,
+        max_steps = 1000,
         learning_rate = 2e-4,
         fp16 = not is_bfloat16_supported(), #floating point 16
         bf16 = is_bfloat16_supported(),
